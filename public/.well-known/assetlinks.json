@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "tech.akpmakes.android.taskkeeper",
+               "sha256_cert_fingerprints": ["F2:09:C2:59:62:9D:A4:EB:F5:4A:19:11:23:9E:67:E2:21:F6:87:25:EC:BE:D5:C5:16:AA:BA:1B:90:F7:18:F4"] }
+}]
