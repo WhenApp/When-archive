@@ -1,8 +1,15 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
-  "name": "Node.js (latest LTS) & TypeScript",
-  "dockerFile": "Dockerfile",
-  "appPort": 3000,
+  "name": "When Development Container",
+  "image": "node:10",
+  "appPort": [
+    3000, // default port for react app running locally
+    5000 // default port for "serve" npm module
+  ],
+  "postCreateCommand": ["yarn"], // force install dependencies after container creation
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash" // force the use of bash over sh
+  },
   "extensions": [
     "ms-vscode.vscode-typescript-tslint-plugin"
   ]
