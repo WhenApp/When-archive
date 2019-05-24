@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import { logger } from './logger';
 import * as serviceWorker from './serviceWorker';
-import firebase from './firebase';
+import { initialize } from './firebase';
 
-firebase.initialize();
+initialize();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

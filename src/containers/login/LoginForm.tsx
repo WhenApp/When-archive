@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Avatar, Button, FormControl, Input, InputLabel, Paper, Theme, Typography } from '@material-ui/core';
+import {
+  Avatar, Button, CircularProgress,
+  FormControl, Input, InputLabel,
+  Paper, Theme, Typography,
+} from '@material-ui/core';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { useSnackbar, OptionsObject } from 'notistack';
+import { useAuthState } from '../../firebase';
 import { logger } from '../../logger';
 
 interface LoginFormProps {
   classes: Record<string, string>;
-  onIconClick: () => void;
 }
 
 const styles: StyleRulesCallback = (theme: Theme) => ({
   main: {
     width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
     [theme.breakpoints.up('sm')]: {
       width: 400,
       marginLeft: 'auto',
@@ -27,18 +31,18 @@ const styles: StyleRulesCallback = (theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
+    position: 'relative',
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     backgroundColor: '#2F2F2F',
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   },
   signup: {
     color: theme.palette.secondary.dark,
@@ -48,14 +52,28 @@ const styles: StyleRulesCallback = (theme: Theme) => ({
   error: {
     backgroundColor: theme.palette.error.dark,
   },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    borderRadius: 4,
+    zIndex: 9001,
+  },
 });
 
-const LoginForm: React.FC<LoginFormProps> = ({ classes, onIconClick }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ classes }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [formType, setFormType] = useState('login');
+  const { initialising } = useAuthState();
 
   const snackBarOptions: OptionsObject = {
     variant: 'error',
@@ -118,7 +136,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ classes, onIconClick }) => {
   return (
     <main className={classes.main}>
       <Paper className={classes.paper} elevation={6}>
-        <Avatar className={classes.avatar} onClick={onIconClick}>
+        { initialising && (
+          <div className={classes.overlay}>
+            <CircularProgress />
+          </div>
+        )}
+        <Avatar className={classes.avatar}>
           <AvTimerIcon fontSize="large" />
         </Avatar>
         { formType === 'login' && (
@@ -163,7 +186,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ classes, onIconClick }) => {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              autoFocus
+              autoFocus={!initialising}
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>

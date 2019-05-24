@@ -1,4 +1,6 @@
-import app from 'firebase/app';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { useAuthState as useAuthStateHook } from 'react-firebase-hooks/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBhIK4O_LA8s1d6I3rnve5xSzGMLUrd6oQ',
@@ -10,6 +12,5 @@ const firebaseConfig = {
   appId: '1:131736033973:web:88c703250e2b683c',
 };
 
-export default {
-  initialize: () => app.initializeApp(firebaseConfig),
-};
+export const initialize = () => firebase.initializeApp(firebaseConfig);
+export const useAuthState = () => useAuthStateHook(firebase.auth());

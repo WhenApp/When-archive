@@ -1,9 +1,11 @@
 import React from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
+import { Redirect, Switch } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './containers/login';
-import logo from './logo.png';
+import logo from './images/when.png';
+import { useAuthState } from './firebase';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -21,23 +23,43 @@ const theme = createMuiTheme({
       contrastText: '#ffffff',
     },
   },
-  typography: {
-    useNextVariants: true,
-  },
 });
 
-const AppContainer: React.FC = () => (
-  <MuiThemeProvider theme={theme}>
-    <SnackbarProvider maxSnack={3} preventDuplicate dense >
-      <div className="app-container">
-        <Router>
-          <Route exact path="/" component={HomeContainer} />
-          <Route path="/login" component={Login} />
-        </Router>
-      </div>
-    </SnackbarProvider>
-  </MuiThemeProvider>
+const RedirectToLogin: React.FC = () => (
+  <Redirect to="/login" />
 );
+
+const RedirectToHome: React.FC = () => (
+  <Redirect to="/home" />
+);
+
+const AppContainer: React.FC = () => {
+  const { initialising, user } = useAuthState();
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <SnackbarProvider maxSnack={3} preventDuplicate dense >
+        <div className="app-container">
+          { (initialising || !user) ? (
+            <Router>
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route component={RedirectToLogin} />
+              </Switch>
+            </Router>
+          ) : (
+            <Router>
+              <Switch>
+                <Route exact path="/home" component={HomeContainer} />
+                <Route component={RedirectToHome} />
+              </Switch>
+            </Router>
+          )}
+        </div>
+      </SnackbarProvider>
+    </MuiThemeProvider>
+  );
+};
 
 const HomeContainer: React.FC = () => (
   <header className="App-header">
