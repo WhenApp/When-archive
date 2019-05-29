@@ -4,7 +4,7 @@ import { SnackbarProvider } from 'notistack';
 import { Redirect, Switch } from 'react-router';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './containers/login';
-import logo from './images/when.png';
+import Home from './containers/home';
 import { useAuthState } from './firebase';
 import './App.css';
 
@@ -50,7 +50,7 @@ const AppContainer: React.FC = () => {
           ) : (
             <Router>
               <Switch>
-                <Route exact path="/home" component={HomeContainer} />
+                <Route exact path="/home" component={Home} />
                 <Route component={RedirectToHome} />
               </Switch>
             </Router>
@@ -60,14 +60,5 @@ const AppContainer: React.FC = () => {
     </MuiThemeProvider>
   );
 };
-
-const HomeContainer: React.FC = () => (
-  <header className="App-header">
-    <img src={logo} className="App-logo" alt="logo" />
-    <p>
-      It's a start, I guess?
-    </p>
-  </header>
-);
 
 export default AppContainer;
