@@ -62,7 +62,7 @@ const styles: StyleRulesCallback = (theme: Theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
-    borderRadius: 4,
+    borderRadius: theme.shape.borderRadius,
     zIndex: 9001,
   },
 });
