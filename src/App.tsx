@@ -5,6 +5,7 @@ import { Redirect, Switch } from 'react-router';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './containers/login';
 import Home from './containers/home';
+import Navigation from './containers/navigation';
 import { useAuthState } from './firebase';
 import './App.css';
 
@@ -34,13 +35,13 @@ const RedirectToHome: React.FC = () => (
 );
 
 const AppContainer: React.FC = () => {
-  const { initialising, user } = useAuthState();
+  const [user, initializing] = useAuthState();
 
   return (
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider maxSnack={3} preventDuplicate dense >
         <div className="app-container">
-          { (initialising || !user) ? (
+          { (initializing || !user) ? (
             <Router>
               <Switch>
                 <Route path="/login" component={Login} />
@@ -55,6 +56,7 @@ const AppContainer: React.FC = () => {
               </Switch>
             </Router>
           )}
+          { user && (<Navigation />) }
         </div>
       </SnackbarProvider>
     </MuiThemeProvider>

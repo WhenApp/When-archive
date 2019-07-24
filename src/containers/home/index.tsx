@@ -4,11 +4,11 @@ import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withSty
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import './index.css';
 
-interface HomeContainerProps {
+interface HomeContainerWithStylesProps {
   classes: Record<string, string>;
 }
 
-const styles: StyleRulesCallback = (theme: Theme) => ({
+const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: '#2F2F2F',
@@ -20,7 +20,7 @@ const styles: StyleRulesCallback = (theme: Theme) => ({
   },
 });
 
-const HomeContainer: React.FC<HomeContainerProps> = ({ classes }) => (
+const HomeContainer: React.FC<HomeContainerWithStylesProps> = ({ classes }) => (
   <div className="home-container">
     <Avatar className={classes.avatar}>
       <AvTimerIcon className={classes.avTimerIcon} />

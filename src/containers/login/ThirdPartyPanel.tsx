@@ -4,11 +4,11 @@ import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withSty
 import SignInButton from './SignInButton';
 import Providers from './SupportedProviders';
 
-interface ThirdPartyPanelProps {
+interface ThirdPartyPanelWithStylesProps {
   classes: Record<string, string>;
 }
 
-const styles: StyleRulesCallback = (theme: Theme) => ({
+const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
   main: {
     width: 'auto',
     marginLeft: theme.spacing(3),
@@ -21,7 +21,7 @@ const styles: StyleRulesCallback = (theme: Theme) => ({
   },
 });
 
-const ThirdPartyPanel: React.FC<ThirdPartyPanelProps> = ({ classes }) => {
+const ThirdPartyPanel: React.FC<ThirdPartyPanelWithStylesProps> = ({ classes }) => {
   return (
     <main className={classes.main}>
       <SignInButton provider={Providers.Google} />

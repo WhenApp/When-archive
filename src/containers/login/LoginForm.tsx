@@ -12,11 +12,11 @@ import { useSnackbar, OptionsObject } from 'notistack';
 import { useAuthState } from '../../firebase';
 import { logger } from '../../logger';
 
-interface LoginFormProps {
+interface LoginFormWithStylesProps {
   classes: Record<string, string>;
 }
 
-const styles: StyleRulesCallback = (theme: Theme) => ({
+const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
   main: {
     width: 'auto',
     marginLeft: theme.spacing(3),
@@ -67,13 +67,13 @@ const styles: StyleRulesCallback = (theme: Theme) => ({
   },
 });
 
-const LoginForm: React.FC<LoginFormProps> = ({ classes }) => {
+const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [formType, setFormType] = useState('login');
-  const { initialising } = useAuthState();
+  const [, initializing] = useAuthState();
 
   const snackBarOptions: OptionsObject = {
     variant: 'error',
@@ -136,7 +136,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ classes }) => {
   return (
     <main className={classes.main}>
       <Paper className={classes.paper} elevation={6}>
-        { initialising && (
+        { initializing && (
           <div className={classes.overlay}>
             <CircularProgress />
           </div>
@@ -186,7 +186,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ classes }) => {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              autoFocus={!initialising}
+              autoFocus={!initializing}
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const SignInButton: React.FC<SignInButtonProps> = ({ provider }) => {
   const classes = useStyles();
 
-  const { initialising } = useAuthState();
+  const [, initializing] = useAuthState();
   const onButtonClick = () => {
     logger.debug(`Triggering sign in with provider "${provider.name}"`);
 
@@ -45,7 +45,7 @@ const SignInButton: React.FC<SignInButtonProps> = ({ provider }) => {
     <MuiThemeProvider theme={generateMuiTheme(provider.color)}>
       <Button
         color="primary"
-        disabled={initialising}
+        disabled={initializing}
         size="large"
         variant="contained"
         fullWidth
