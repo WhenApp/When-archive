@@ -2,10 +2,9 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import LoginForm from './LoginForm';
 import ThirdPartyPanel from './ThirdPartyPanel';
-import './index.css';
 
 const LoginContainer: React.FC = () => (
-  <div className="login-container">
+  <div className="page-container login">
     <LoginForm />
     <br />
     <Typography component="h1" variant="h5" style={{

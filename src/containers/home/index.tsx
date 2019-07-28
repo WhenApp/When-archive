@@ -2,7 +2,6 @@ import React from 'react';
 import { Avatar, Theme, Typography } from '@material-ui/core';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
-import './index.css';
 
 interface HomeContainerWithStylesProps {
   classes: Record<string, string>;
@@ -21,11 +20,11 @@ const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
 });
 
 const HomeContainer: React.FC<HomeContainerWithStylesProps> = ({ classes }) => (
-  <div className="home-container">
+  <div className="page-container home">
     <Avatar className={classes.avatar}>
       <AvTimerIcon className={classes.avTimerIcon} />
     </Avatar>
-    <Typography component="h5" variant="h5" style={{
+    <Typography component="h1" variant="h5" style={{
       color: '#fff',
     }}>
       It's a start, I guess?
