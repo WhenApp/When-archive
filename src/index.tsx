@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import WhenIntlProvider from './i18n';
 import App from './App';
 import { logger } from './logger';
 import * as serviceWorker from './serviceWorker';
 import { initialize } from './firebase';
+import './index.css';
 
 initialize();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <WhenIntlProvider>
+    <App />
+  </WhenIntlProvider>,
+  document.getElementById('root'),
+);
 
 serviceWorker.register();
 

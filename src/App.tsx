@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './containers/login';
 import Home from './containers/home';
 import Settings from './containers/settings';
+import Tasks from './containers/tasks';
 import Navigation from './containers/navigation';
 import { useAuthState } from './firebase';
 import './App.css';
@@ -53,6 +54,7 @@ const AppContainer: React.FC = () => {
             <Router>
               <Switch>
                 <Route exact path="/home" component={Home} />
+                <Route exact path="/tasks" component={Tasks} />
                 <Route exact path="/settings" component={Settings} />
                 <Route component={RedirectToHome} />
               </Switch>

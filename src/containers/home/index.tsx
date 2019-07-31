@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, Theme, Typography } from '@material-ui/core';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 interface HomeContainerWithStylesProps {
   classes: Record<string, string>;
@@ -27,7 +28,17 @@ const HomeContainer: React.FC<HomeContainerWithStylesProps> = ({ classes }) => (
     <Typography component="h1" variant="h5" style={{
       color: '#fff',
     }}>
-      It's a start, I guess?
+      <FormattedMessage
+        id="home.blurb"
+      />
+      <br />
+      <FormattedNumber
+        value={1234}
+        // eslint-disable-next-line react/style-prop-object
+        style="currency"
+        currency="JPY"
+        currencyDisplay="symbol"
+      />
     </Typography>
   </div>
 );
