@@ -5,32 +5,33 @@ import {
 import { Info, Lock, Person, Shop } from '@material-ui/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiscord, faGithubAlt } from '@fortawesome/free-brands-svg-icons';
-import { makeStyles, createStyles } from '@material-ui/styles';
+import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
 import pkg from '../../../package.json';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '100%',
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-      alignSelf: 'center',
-      marginTop: 50,
-      paddingBottom: 0,
-    },
-    faIcon: {
-      textAlign: 'center',
-    },
-    iconRoot: {
-      minWidth: 36,
-    },
-  }),
-);
+interface SettingsContainerWithStylesProps {
+  classes: Record<string, string>;
+}
 
-const SettingsContainer: React.FC = () => {
-  const classes = useStyles();
+const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    alignSelf: 'center',
+    marginTop: 50,
+    paddingBottom: 0,
+  },
+  faIcon: {
+    textAlign: 'center',
+  },
+  iconRoot: {
+    minWidth: 36,
+  },
+});
+
+const SettingsContainer: React.FC<SettingsContainerWithStylesProps> = ({ classes }) => {
   const intl = useIntl();
 
   const messages = defineMessages({
@@ -97,4 +98,4 @@ const SettingsContainer: React.FC = () => {
   );
 };
 
-export default SettingsContainer;
+export default withStyles(styles)(SettingsContainer);

@@ -10,9 +10,11 @@ import './index.css';
 initialize();
 
 ReactDOM.render(
-  <WhenIntlProvider>
-    <App />
-  </WhenIntlProvider>,
+  <React.StrictMode>
+    <WhenIntlProvider>
+      <App />
+    </WhenIntlProvider>
+  </React.StrictMode>,
   document.getElementById('root'),
 );
 
