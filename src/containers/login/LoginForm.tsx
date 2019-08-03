@@ -9,6 +9,7 @@ import {
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import withStyles, { StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 import { useSnackbar, OptionsObject } from 'notistack';
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
 import { useAuthState } from '../../firebase';
 import { logger } from '../../logger';
 
@@ -48,6 +49,7 @@ const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
     color: theme.palette.secondary.dark,
     textDecoration: 'underline',
     cursor: 'pointer',
+    paddingLeft: 5,
   },
   error: {
     backgroundColor: theme.palette.error.dark,
@@ -74,13 +76,49 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [formType, setFormType] = useState('login');
   const [, initializing] = useAuthState();
+  const intl = useIntl();
+
+  const messages = defineMessages({
+    emailAlreadyInUse: {
+      id: 'login.error.emailAlreadyInUse',
+    },
+    operationNotAllowed: {
+      id: 'login.error.operationNotAllowed',
+    },
+    weakPassword: {
+      id: 'login.error.weakPassword',
+    },
+    invalidEmail: {
+      id: 'login.error.invalidEmail',
+    },
+    accountDisabled: {
+      id: 'login.error.accountDisabled',
+    },
+    userError: {
+      id: 'login.error.userError',
+    },
+    unmatchingPasswords: {
+      id: 'login.error.unmatchingPasswords',
+    },
+    unexpectedError: {
+      id: 'general.unexpectedError',
+    },
+    callToActionLogIn: {
+      id: 'login.callToActionLogIn',
+    },
+    callToActionSignUp: {
+      id: 'login.callToActionSignUp',
+    },
+  });
 
   const snackBarOptions: OptionsObject = {
     variant: 'error',
     persist: true,
     action: key => (
       <Button onClick={() => closeSnackbar(key)} style={{ color: '#fff' }}>
-        Got it
+        <FormattedMessage
+          id="general.gotIt"
+        />
       </Button>
     ),
   };
@@ -92,20 +130,20 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
           .then((data) => {
             console.log(data);
           });
-        return enqueueSnackbar('An account with this email address already exists.', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.emailAlreadyInUse), snackBarOptions);
       case 'auth/operation-not-allowed':
-        return enqueueSnackbar('Account creation is currently disabled.', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.operationNotAllowed), snackBarOptions);
       case 'auth/weak-password':
-        return enqueueSnackbar('Your password is too weak.', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.weakPassword), snackBarOptions);
       case 'auth/invalid-email':
-        return enqueueSnackbar('Please enter a valid email address.', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.invalidEmail), snackBarOptions);
       case 'auth/user-disabled':
-        return enqueueSnackbar('Your account has been disabled.', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.accountDisabled), snackBarOptions);
       case 'auth/user-not-found':
       case 'auth/wrong-password':
-        return enqueueSnackbar('Check your email/password and try again.', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.userError), snackBarOptions);
       default:
-        return enqueueSnackbar('An unexpected error has occurred. Please try again.', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.unexpectedError), snackBarOptions);
     }
   };
 
@@ -116,7 +154,7 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
       logger.debug(`Triggering registration for email "${email}"`);
 
       if (password2 !== password) {
-        return enqueueSnackbar('Your passwords do not match!', snackBarOptions);
+        return enqueueSnackbar(intl.formatMessage(messages.unmatchingPasswords), snackBarOptions);
       }
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -147,15 +185,21 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
         { formType === 'login' && (
           <div>
             <Typography component="h1" variant="h5">
-              Log in to When
+            <FormattedMessage
+              id="login.blurbLogIn"
+            />
             </Typography>
             <Typography component="h1" variant="subtitle1">
-              New here?&nbsp;
+              <FormattedMessage
+                id="login.newHere"
+              />
               <span
                 className={classes.signup}
                 onClick={toggleFormType}
               >
-                Sign up for free!
+                <FormattedMessage
+                  id="login.signUpForFree"
+                />
               </span>
             </Typography>
           </div>
@@ -163,26 +207,37 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
         { formType === 'register' && (
           <div>
             <Typography component="h1" variant="h5">
-              Sign up for When
+              <FormattedMessage
+                id="login.blurbSignUp"
+              />
             </Typography>
             <Typography component="h1" variant="subtitle1">
-              Already signed up?&nbsp;
+              <FormattedMessage
+                id="login.alreadySignedUp"
+              />
               <span
                 className={classes.signup}
                 onClick={toggleFormType}
               >
-                Log in!
+                <FormattedMessage
+                  id="login.callToActionLogIn"
+                />
               </span>
             </Typography>
           </div>
         )}
         <form className={classes.form} onSubmit={onFormSubmit}>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <InputLabel htmlFor="email">
+              <FormattedMessage
+                id="login.form.emailAddress"
+              />
+            </InputLabel>
             <Input
               id="email"
               name="email"
-              autoComplete="email"
+              type="text"
+              autoComplete="email username"
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
@@ -190,24 +245,32 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
+            <InputLabel htmlFor="password">
+              <FormattedMessage
+                id="login.form.password"
+              />
+            </InputLabel>
             <Input
+              id="password"
               name="password"
               type="password"
-              id="password"
-              autoComplete="current-password"
+              autoComplete={ formType === 'login' ? 'current-password' : 'new-password' }
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
           </FormControl>
           { formType === 'register' && (
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password-2">Re-enter Password</InputLabel>
+              <InputLabel htmlFor="password-2">
+                <FormattedMessage
+                  id="login.form.reEnterPassword"
+                />
+              </InputLabel>
               <Input
+                id="password-2"
                 name="password-2"
                 type="password"
-                id="password-2"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 value={password2}
                 onChange={e => setPassword2(e.target.value)}
               />
@@ -220,7 +283,11 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
             color="primary"
             className={classes.submit}
           >
-            { formType === 'login' ? 'Log in' : 'Sign up' }
+            {
+              formType === 'login'
+              ? intl.formatMessage(messages.callToActionLogIn)
+              : intl.formatMessage(messages.callToActionSignUp)
+            }
           </Button>
         </form>
       </Paper>

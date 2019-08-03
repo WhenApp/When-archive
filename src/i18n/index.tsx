@@ -1,11 +1,13 @@
 import React, { ReactNode } from 'react';
 import { IntlProvider } from 'react-intl';
 import messages_en_us from './en_US.json';
+import messages_es from './es.json';
 import { logger } from '../logger';
 
 const messages: { [index: string]: Record<string, string> } = {
   en: messages_en_us,
   'en-US': messages_en_us,
+  es: messages_es,
 };
 
 const supportedLocales = Object.keys(messages);
@@ -15,7 +17,16 @@ const userLocales = new Set([...navigator.languages, 'en']); // add en to the li
 const messagesToUse = Array.from(userLocales).filter(_ => supportedLocales.includes(_))[0];
 const localeToUse = messagesToUse.split(/[-_]/)[0]; // remove any region codes
 
-logger.debug('Initializing i18n...', { supportedLocales, userLocales, messagesToUse, localeToUse });
+logger.debug(
+  'Initializing i18n...',
+  {
+    supportedLocales,
+    userLocales,
+    messagesToUse,
+    localeToUse,
+    messages: messages[messagesToUse],
+  },
+);
 
 const WhenIntlProvider = ({ children }: { children: ReactNode }) => {
   return (
