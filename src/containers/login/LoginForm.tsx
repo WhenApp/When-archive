@@ -28,6 +28,9 @@ const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
       marginRight: 'auto',
     },
   },
+  thinWeight: {
+    fontWeight: 100,
+  },
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -184,12 +187,12 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
         </Avatar>
         { formType === 'login' && (
           <div>
-            <Typography component="h1" variant="h5">
+            <Typography className={classes.thinWeight} variant="h5">
             <FormattedMessage
               id="login.blurbLogIn"
             />
             </Typography>
-            <Typography component="h1" variant="subtitle1">
+            <Typography className={classes.thinWeight} variant="subtitle1">
               <FormattedMessage
                 id="login.newHere"
               />
@@ -206,12 +209,12 @@ const LoginForm: React.FC<LoginFormWithStylesProps> = ({ classes }) => {
         )}
         { formType === 'register' && (
           <div>
-            <Typography component="h1" variant="h5">
+            <Typography className={classes.thinWeight} variant="h5">
               <FormattedMessage
                 id="login.blurbSignUp"
               />
             </Typography>
-            <Typography component="h1" variant="subtitle1">
+            <Typography className={classes.thinWeight} variant="subtitle1">
               <FormattedMessage
                 id="login.alreadySignedUp"
               />

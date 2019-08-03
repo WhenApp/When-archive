@@ -21,7 +21,7 @@ const styles: StyleRulesCallback<Theme, {}> = (theme: Theme) => ({
 });
 
 const HomeContainer: React.FC<HomeContainerWithStylesProps> = ({ classes }) => (
-  <div className="page-container home">
+  <div className="page-container home text-center centered">
     <Avatar className={classes.avatar}>
       <AvTimerIcon className={classes.avTimerIcon} />
     </Avatar>

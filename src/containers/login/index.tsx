@@ -5,11 +5,12 @@ import LoginForm from './LoginForm';
 import ThirdPartyPanel from './ThirdPartyPanel';
 
 const LoginContainer: React.FC = () => (
-  <div className="page-container login">
+  <div className="page-container text-center login" style={{ paddingTop: 50 }}>
     <LoginForm />
     <br />
-    <Typography component="h1" variant="h5" style={{
+    <Typography variant="h5" style={{
       color: '#fff',
+      fontWeight: 100,
     }}>
       <FormattedMessage
         id="login.orLogInWith"
